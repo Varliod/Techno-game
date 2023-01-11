@@ -1,0 +1,56 @@
+// MongoDB Playground
+// To disable this template go to Settings | MongoDB | Use Default Template For Playground.
+// Make sure you are connected to enable completions and to be able to run a playground.
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+// Select the database to use.
+use('makerhub');
+
+// The drop() command destroys all data from a collection.
+// Make sure you run it against the correct database and collection.
+db.sales.drop();
+
+// Insert a few documents into the sales collection.
+db.tools.insertMany([
+  { '_id': 1, 'item': 'controller', 'price': 50, 'quantity': 35, 'date': new Date('2022-02-09T08:00:00Z') },
+  { '_id': 2, 'item': 'mouse', 'price': 80, 'quantity': 25, 'date': new Date('2022-02-09T08:00:00Z') },
+  { '_id': 3, 'item': 'keyboard', 'price': 45, 'quantity': 30, 'date': new Date('2022-02-09T08:00:00Z') },
+  { '_id': 4, 'item': 'headphone', 'price': 75, 'quantity': 20, 'date': new Date('2022-02-09T08:00:00Z') },
+  { '_id': 5, 'item': 'camera', 'price': 35, 'quantity': 15, 'date': new Date('2022-02-09T08:00:00Z') },
+  { '_id': 6, 'item': 'usb', 'price': 10, 'quantity': 50, 'date': new Date('2022-02-09T08:00:00Z') },
+  { '_id': 7, 'item': 'cable', 'price': 5, 'quantity': 100, 'date': new Date('2022-02-09T08:00:00Z') }
+]);
+
+db.key.insertMany([
+  { '_id': 1, 'item': 'controller', 'price': 50, 'quantity': 35, 'date': new Date('2022-02-09T08:00:00Z') },
+  { '_id': 2, 'item': 'mouse', 'price': 80, 'quantity': 25, 'date': new Date('2022-02-09T08:00:00Z') },
+  { '_id': 3, 'item': 'keyboard', 'price': 45, 'quantity': 30, 'date': new Date('2022-02-09T08:00:00Z') },
+  { '_id': 4, 'item': 'headphone', 'price': 75, 'quantity': 20, 'date': new Date('2022-02-09T08:00:00Z') },
+  { '_id': 5, 'item': 'camera', 'price': 35, 'quantity': 15, 'date': new Date('2022-02-09T08:00:00Z') },
+  { '_id': 6, 'item': 'usb', 'price': 10, 'quantity': 50, 'date': new Date('2022-02-09T08:00:00Z') },
+  { '_id': 7, 'item': 'cable', 'price': 5, 'quantity': 100, 'date': new Date('2022-02-09T08:00:00Z') }
+]);
+
+db.game.insertMany([
+  { '_id': 1, 'item': 'controller', 'price': 50, 'quantity': 35, 'date': new Date('2022-02-09T08:00:00Z') },
+  { '_id': 2, 'item': 'mouse', 'price': 80, 'quantity': 25, 'date': new Date('2022-02-09T08:00:00Z') },
+  { '_id': 3, 'item': 'keyboard', 'price': 45, 'quantity': 30, 'date': new Date('2022-02-09T08:00:00Z') },
+  { '_id': 4, 'item': 'headphone', 'price': 75, 'quantity': 20, 'date': new Date('2022-02-09T08:00:00Z') },
+  { '_id': 5, 'item': 'camera', 'price': 35, 'quantity': 15, 'date': new Date('2022-02-09T08:00:00Z') },
+  { '_id': 6, 'item': 'usb', 'price': 10, 'quantity': 50, 'date': new Date('2022-02-09T08:00:00Z') },
+  { '_id': 7, 'item': 'cable', 'price': 5, 'quantity': 100, 'date': new Date('2022-02-09T08:00:00Z') }
+]);
+
+// Run a find command to view items sold on April 4th, 2014.
+db.sales.find({ date: { $gte: new Date('2014-04-04'), $lt: new Date('2014-04-05') } });
+
+// Build an aggregation to view total sales for each product in 2014.
+const aggregation = [
+  { $match: { date: { $gte: new Date('2014-01-01'), $lt: new Date('2015-01-01') } } },
+  { $group: { _id: '$item', totalSaleAmount: { $sum: { $multiply: [ '$price', '$quantity' ] } } } }
+];
+
+// Run the aggregation and open a cursor to the results.
+// Use toArray() to exhaust the cursor to return the whole result set.
+// You can use hasNext()/next() to iterate through the cursor page by page.
+db.sales.aggregate(aggregation);
